@@ -13,15 +13,21 @@ const IndexPage = () => {
 
     e.preventDefault();
 
+    const headers = {
+      'Authorization': 'token 976313b512d7b1de65d40ab9096f557ec3a93ca7'
+    }
+
     const formData = new FormData();
     const fileInput = document.getElementById("fileCache");
     
     formData.append("file1", fileInput.files.item(0));
     formData.append("file2", fileInput.files.item(1));
 
+
     fetch(reqUrl, {
       method: "POST",
-      body: formData
+      body: formData,
+      headers: headers
     })
     .then(res => console.log(res))
     .catch(error => console.error(error));
