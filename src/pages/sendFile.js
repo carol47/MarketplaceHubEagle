@@ -4,9 +4,10 @@ import Layout from "../components/layout";
 import SEO from "../components/seo";
 import "./layout.css";
 
-const IndexPage = () => {
+const SendFilePage = props => {
   
-  let [fileList, setFileList] = useState([]);
+  console.log(props);
+  //let [fileList, setFileList] = useState([]);
   let [reqUrl, setReqUrl] = useState("")
 
   const sendData = (e) => {
@@ -37,7 +38,8 @@ const IndexPage = () => {
   return (
     <Layout>
       <SEO title="Home" />
-      <h2>Envio de arquivos para Servidor:</h2>
+      <h2>{props.location.state.marketplace}</h2>
+      <h3>Envio de arquivos para Servidor</h3>
       <label css={css`
           margin:  5px;
           padding: 5px;
@@ -75,4 +77,4 @@ const IndexPage = () => {
 
 }
 
-export default IndexPage
+export default SendFilePage;

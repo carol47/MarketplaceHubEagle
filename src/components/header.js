@@ -2,15 +2,25 @@ import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
 import { css } from '@emotion/core';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoff } from '../components/store';
 
-const Header = ({ siteTitle }) => (
-  <header>
-    <Nav>
-      <Title name={siteTitle} />
-      <Navigation />
-    </Nav>
-  </header>
-)
+
+
+
+const Header = (props) => {
+
+  return (
+    <header>
+      <Nav>
+        <Title name={"Eagle"} />
+        <Navigation loginStatus = ""/>
+      </Nav>
+    </header>
+    );
+
+}
+
 
 
 const Nav = props => {
@@ -54,6 +64,13 @@ const Title = props => {
 
 const Navigation = props => {
 
+  const isUserLogged = useSelector(state => state.isUserLogged);
+  
+
+  const navBar = isUserLogged
+    ? <><UserProfile name="Fulanx - Usiminas"/> <UserMenuBar /></>
+    : <Link to="/login">Login</Link>
+
   return (
     <div css={css`
       width: 80vw;
@@ -65,9 +82,9 @@ const Navigation = props => {
       color: black;
 
     `}>
-      <div>Caminho / Caminho</div>
-      <UserProfile name="Fulanx - Usiminas"/>
-      <MenuBar />
+      <div>.</div>
+        { navBar }
+
     </div>
   );
 
@@ -95,7 +112,9 @@ const UserProfile = props => {
   );
 }
 
-const MenuBar = props => {
+const UserMenuBar = props => {
+
+  const dispatch = useDispatch();
 
   return (
     <div css={css`
@@ -105,8 +124,7 @@ const MenuBar = props => {
         padding: 6px;
       }
     `}>
-      <div>Minha Conta</div>
-      <div>Logout</div>
+      <Link to="/" onClick={dispatch(logoff())}>Sair</Link>
     </div>
   );
 

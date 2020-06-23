@@ -1,8 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useStaticQuery, graphql } from "gatsby";
+import { useStaticQuery, graphql, Link } from "gatsby";
 import "normalize.css";
 import Header from "./header"
+import { css } from '@emotion/core';
+import { Provider } from 'react-redux';
+import store from './store';
+
 
 
 const Layout = ({ children }) => {
@@ -17,15 +21,22 @@ const Layout = ({ children }) => {
   `)
 
   return (
-    <>
-      <Header siteTitle={data.site.siteMetadata.title} />
-      <div>
-        <main>{children}</main>
-        <footer>
-          
-        </footer>
+    <Provider store={store}>
+      <div css={css`
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+      `}>
+        <Header siteTitle={data.site.siteMetadata.title} />
+        <div>
+          <main>{children}</main>
+          <footer>
+            
+          </footer>
+        </div>
       </div>
-    </>
+
+    </Provider>
   )
 }
 

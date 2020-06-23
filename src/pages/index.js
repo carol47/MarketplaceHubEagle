@@ -1,147 +1,66 @@
-import React, { useState } from "react";
-import { css } from "@emotion/core";
+// Gatsby supports TypeScript natively!
+import React from "react";
+import { PageProps, Link } from "gatsby";
+import { css } from '@emotion/core';
 import Layout from "../components/layout";
 import SEO from "../components/seo";
-import "./layout.css";
+import { EagleImage } from '../images/images';
 
-const IndexPage = () => {
-  
-  
+const index = (props) => (
+  <Layout>
+    <SEO title="Projeto Eagle - Página Inicial" />
 
-  return (
-    <Layout>
-      <SEO title="Home" />
-      <MainContainer>
-        <NavigationMenu />
-      </MainContainer>
-    </Layout>
-  )
+    <MainPage />
+    
+  </Layout>
+)
 
+export default index;
 
-}
-
-const MainContainer = props => {
+const MainPage = props => {
 
   return (
     <div css={css`
-      height: 90vh;
-      width: 100vw;
+      margin: 128px;
       display: flex;
       flex-direction: row;
-      color: black;
+      justify-content: space-evenly;
+      align-items: center;
+      * {
+        
+      }
     `}>
-      {props.children}
+      <InfoPanel />
+      <ImagePanel />
     </div>
   );
 
 }
 
-const NavigationMenu = props => {
-
-  return (<div css={css`
-    width: 15vw;
-    height: 100%;
-    padding: 15px 0px;
-    display: flex;
-    flex-direction: column;
-    background-color: #e2fbfa;
-
-    * {
-      margin: 5px 0px;
-    }
-  
-  `}>
-    <label css={css`
-      display:flex;
-      flex-direction: row;
-      justify-content: center;
-    `}>
-      <input css={css`
-      width:90%;
-      
-    `}type="text" placeholder="Busca..."/>
-
-    </label>
-
-    
-      <NavigationGroup type="Hub">
-        <NavigationItem name="Plugg.to" />
-        <NavigationItem name="..." />
-        <NavigationItem name="..." />
-      </NavigationGroup>
-      <NavigationGroup type="Marketplaces">
-        <NavigationItem name="Netshoes" />
-        <NavigationItem name="Centauro" />
-        <NavigationItem name="B2W" />
-      </NavigationGroup>
-      <NavigationGroup type="Administração">
-        <NavigationItem name="Contas" />
-      </NavigationGroup>
-
-
-  </div>)
-
-}
-
-const NavigationGroup = props => {
+const InfoPanel = props => {
 
   return (
     <div css={css`
-      display: flex;
-      flex-direction:column;
-      height: 100%;
-      
-
-      .item :hover {
-        background-color: #7ccdca;
-        cursor: pointer;
-
-
-
-      }
+      max-width: 30vw;
     `}>
-      <div css={css`
-        font-family: serif;
-        padding: 16px 0px;
-        margin: 5px 0px;
-        width: 100%;
-        font-size: 140%;
-        text-align center;
-        border-radius: 5px;
-        background-color: #b0eae7;
-        
-        * {
-          margin: 5px;
-          padding: 15px;
-        }
-
-      `}>{props.type}</div>
-        <div css={css`
-          display: flex;
-          flex-direction: column;
-
-          * {
-            padding: 8px 0px;
-          }
-        
-
-        `}>
-          {props.children}
-        </div>
-      </div>
+      <h2>Gestão de Marketplace de forma simples</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dui arcu, gravida sed finibus sed, dapibus convallis tellus. Sed tempor, magna sit amet ornare ullamcorper, sapien tortor tristique mi, sit amet tincidunt odio eros convallis justo. Nullam tristique turpis nec mi molestie suscipit. Donec sagittis felis eu felis bibendum, eget cursus diam aliquet. In accumsan vulputate leo, at facilisis lectus consectetur in. Pellentesque varius finibus lorem, nec blandit leo congue ut. Suspendisse tincidunt condimentum turpis, vitae accumsan justo venenatis et. Maecenas in ligula sit amet turpis pretium fermentum at in urna. Sed odio elit, imperdiet sit amet accumsan et, pretium nec ex. Nam non lacus hendrerit, ullamcorper felis eget, condimentum augue. Duis quam justo, interdum nec est eu, pulvinar sollicitudin tortor. </p>
+    </div>
   );
 
 }
 
-const NavigationItem = props => {
+const ImagePanel = () => {
 
   return (
-    <div className="item" css={css`
-    font-size: 90%;
-  `}>{props.name}</div>
+    <div css={css`
+      max-width: 30vw;
+    
+    `}>
+      <EagleImage />
+
+    </div>
   );
 
 }
 
-
-export default IndexPage;
