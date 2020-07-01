@@ -2,7 +2,8 @@ import { createStore } from 'redux';
 
 //INITIAL STATE
 const initialState = {
-    isUserLogged: false
+    isUserLogged: false,
+    currentScreen: "InitialScreen"
 };
 
 //REDUCER
@@ -14,6 +15,8 @@ const reducer = (state, action) => {
                 ...state,
                 isUserLogged: true
             }
+        case "SET_CURRENT_SCREEN":
+            return {...state, currentScreen: action.payload.currentScreen}
     }
 
     return state;
@@ -32,6 +35,16 @@ export function logoff() {
     return {
         type: "USER_LOGOFF"
     };
+}
+
+export function setCurrentScreen(screen){
+    return {
+        type: "SET_CURRENT_SCREEN",
+        payload: {
+            currentScreen : screen
+        }
+    }
+
 }
 
 const store = createStore(reducer, initialState);

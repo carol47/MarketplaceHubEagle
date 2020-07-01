@@ -5,15 +5,23 @@ import { css } from '@emotion/core';
 import Layout from "../components/layout";
 import SEO from "../components/seo";
 import { EagleImage } from '../images/images';
+import store from '../components/store';
+import { Provider } from "react-redux";
 
-const index = (props) => (
-  <Layout>
-    <SEO title="Projeto Eagle - Página Inicial" />
+const index = (props) => {
+  
+  
+  return (
+  
+    <Provider store={store}>
+      <Layout>
+        <SEO title="Projeto Eagle - Página Inicial" />
 
-    <MainPage />
-    
-  </Layout>
-)
+        <MainPage />
+        
+      </Layout>
+    </Provider>
+)}
 
 export default index;
 

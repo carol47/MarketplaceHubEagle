@@ -1,7 +1,13 @@
 html {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Calibri, Verdana, Arial, Helvetica, sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
 
   background-color: white;
+}
+
+h1 h2 h3 h4 h5 {
+
+  font-family: Bookman, Verdana, Arial, Helvetica, sans-serif;
+
 }

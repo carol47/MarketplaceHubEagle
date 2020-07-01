@@ -4,7 +4,8 @@ import React from "react"
 import { css } from '@emotion/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoff } from '../components/store';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -13,7 +14,7 @@ const Header = (props) => {
   return (
     <header>
       <Nav>
-        <Title name={"Eagle"} />
+        <Title name={"Eagle - Gestão de Marketplace"} />
         <Navigation loginStatus = ""/>
       </Nav>
     </header>
@@ -32,12 +33,13 @@ const Nav = props => {
       display: flex;
       flex-direction: row;
       align-items: center;
+      box-shadow: 1px 1px 1px gray;
       color: #fff;
       width: 100%;
       height: 64px;
       background-color: #7ccdca;
       position: relative;
-      margin: 0px;
+      
 
     `}>
       {props.children}
@@ -50,12 +52,12 @@ const Title = props => {
 
   return (
     <h1 css={css`
-        width: 20vw;
+        width: 40vw;
         margin-left: 16px;
         color: black;
-        font-family: serif;
         font-style: italic;
         padding: 10px;
+        font-size: 150%;
 
   `}>{props.name}</h1>
   );
@@ -69,7 +71,18 @@ const Navigation = props => {
 
   const navBar = isUserLogged
     ? <><UserProfile name="Fulanx - Usiminas"/> <UserMenuBar /></>
-    : <Link to="/login">Login</Link>
+    : <Link to="/login" css={css`
+    display: flex;
+    width: 64px;
+    justify-content: space-between;
+    text-decoration: none;
+      color: black;
+    `}>
+        Login
+        <FontAwesomeIcon icon={faSignInAlt} css={css`
+          font-size: 1.2rem;
+          `} />
+      </Link>
 
   return (
     <div css={css`
@@ -77,13 +90,12 @@ const Navigation = props => {
       margin: 0px 30px;
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
       color: black;
 
     `}>
-      <div>.</div>
-        { navBar }
+      { navBar }
 
     </div>
   );

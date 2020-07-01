@@ -7,6 +7,7 @@ import SEO from "../components/seo";
 import { EagleImage } from '../images/images';
 import { useDispatch } from 'react-redux';
 import { login } from '../components/store';
+import { PrimaryButton } from '../components/basic/buttons';
 
 
 const SecondPage = (props) => (
@@ -16,7 +17,7 @@ const SecondPage = (props) => (
   </Layout>
 )
 
-export default SecondPage
+export default SecondPage;
 
 const LoginPage = props => {
 
@@ -94,21 +95,11 @@ const LoginPage = props => {
           <input type="email" placeholder="Usuário"/>
           <br />
           <input type="password" placeholder="Senha"/>
-          <button css={css `
-            background-color: #FFC79A;
-            border-radius: 5px;
-            border: 1px solid black;
-            margin: 16px;
-
-            * {
-              color: black;
-              text-decoration: none;
-            }
-          `}>
+          <PrimaryButton>
             
             <Link to="/dashboard" onClick={() => dispatch(login())}>Login</Link>
 
-          </button>
+          </PrimaryButton>
 
         </div>
       </div>
