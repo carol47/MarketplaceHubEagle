@@ -7,6 +7,7 @@ module.exports = {
   plugins: [
     `gatsby-plugin-emotion`,
     `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-favicon`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -24,7 +25,7 @@ module.exports = {
         start_url: `/`,
         background_color: `white`,
         theme_color: `#663399`,
-        display: `minimal-ui`
+        display: `minimal-ui`,
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
