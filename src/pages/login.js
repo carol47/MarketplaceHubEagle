@@ -54,7 +54,7 @@ const LoginComponent = () => {
             }
           `}
         >
-          <img src={logo} alt="Logo" />
+          <img src={logo} height="128px" loading="eager" alt="Logo" />
         </div>
         <div
           css={css`
