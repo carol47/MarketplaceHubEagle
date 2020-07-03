@@ -1,6 +1,5 @@
 import React from "react"
 import { css } from "@emotion/core"
-
 import { SubmitButton } from "./basic/buttons"
 
 const SendFileComponent = props => {
@@ -31,7 +30,6 @@ const SendFileComponent = props => {
 const SendFileForm = props => {
   const reqUrl = "https://webhook.site/54d79620-e33e-43a1-8892-497fa75c9bfd"
   const sendData = e => {
-    console.log("milo")
     e.preventDefault()
 
     const fileInput = document.getElementById("fileCache")

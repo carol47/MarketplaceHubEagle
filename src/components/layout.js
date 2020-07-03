@@ -7,6 +7,13 @@ import Header from "./header"
 import { css } from "@emotion/core"
 import { Provider } from "react-redux"
 import store from "../components/store"
+import "@fortawesome/fontawesome-svg-core/styles.css"
+import { config } from "@fortawesome/fontawesome-svg-core"
+
+/////////////////////////////////////////////////////////////////////////////////////
+// Prevent fontawesome from dynamically adding its css since we did it manually above
+config.autoAddCss = false
+/////////////////////////////////////////////////////////////////////////////////////
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -27,6 +34,7 @@ const Layout = ({ children }) => {
           flex-direction: column;
           width: 100vw;
           line-height: 1;
+          overflow: hidden;
           * {
             box-sizing: border-box;
           }

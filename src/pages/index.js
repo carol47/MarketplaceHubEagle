@@ -14,7 +14,6 @@ const index = props => {
     <Provider store={store}>
       <Layout>
         <SEO title="Eagle - Gestão de Marketplace" />
-
         <MainPage />
       </Layout>
     </Provider>
@@ -28,30 +27,31 @@ const MainPage = props => {
     <div
       css={css`
         height: 90vh;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        align-items: center;
+        display: grid;
+        grid-template-columns: 15vw 35vw 50vw;
+        place-items: center;
 
         background-image: url(${background});
         background-color: #7ccdca;
         background-size: cover;
-        * {
+        @media (max-width: 720px) {
+          display: block;
+          height: 100%;
+          padding: 16px;
+          background-image: none;
         }
       `}
     >
-      <InfoPanel />
-      <ImagePanel />
+      <SiteInfoPanel />
     </div>
   )
 }
 
-const InfoPanel = props => {
+const SiteInfoPanel = props => {
   return (
     <div
       css={css`
-        max-width: 30vw;
-
+        grid-column: 2/2;
         padding: 10px;
         border-radius: 10px;
       `}
@@ -64,6 +64,7 @@ const InfoPanel = props => {
       >
         Gestão de Marketplace de forma simples
       </div>
+      {/* Descrição do Site */}
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer dui
         arcu, gravida sed finibus sed, dapibus convallis tellus. Sed tempor,
@@ -79,15 +80,5 @@ const InfoPanel = props => {
         interdum nec est eu, pulvinar sollicitudin tortor.{" "}
       </p>
     </div>
-  )
-}
-
-const ImagePanel = () => {
-  return (
-    <div
-      css={css`
-        max-width: 30vw;
-      `}
-    ></div>
   )
 }

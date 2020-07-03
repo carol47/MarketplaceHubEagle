@@ -6,11 +6,12 @@ import SEO from "../components/seo"
 import { useDispatch } from "react-redux"
 import { login } from "../components/store"
 import { LoginButton } from "../components/basic/buttons"
+import { BasicInput } from "../components/basic/inputComponents"
 import logo from "../images/logo.png"
 
 const LoginPage = () => (
   <Layout>
-    <SEO title="Page two" />
+    <SEO title="Login" />
     <LoginComponent />
   </Layout>
 )
@@ -36,11 +37,12 @@ const LoginComponent = () => {
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          width: 30vw;
+          width: 100vw;
           border-radius: 50px;
           overflow: hidden;
         `}
       >
+        {/* Logo Container */}
         <div
           css={css`
             display: flex;
@@ -56,37 +58,27 @@ const LoginComponent = () => {
         >
           <img src={logo} height="128px" loading="eager" alt="Logo" />
         </div>
+
         <div
           css={css`
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            & > * {
-              margin: 16px;
-            }
           `}
         >
-          <div
-            css={css`
-              font-size: 150%;
-            `}
-          >
-            Acesso ao Sistema
-          </div>
-          <div
-            css={css`
-              display: flex;
-              flex-direction: column;
-              align-items: center;
+          <h2>Acesso ao Sistema</h2>
 
+          {/* Input Container */}
+          <div
+            css={css`
               * {
                 padding: 16px;
               }
             `}
           >
-            <input type="email" placeholder="Usuário" />
-            <input type="password" placeholder="Senha" />
+            <BasicInput type="email" placeholder="Usuário" label="Usuário" />
+            <BasicInput type="password" placeholder="Usuário" label="Senha" />
           </div>
 
           <Link to="/dashboard" onClick={() => dispatch(login())}>
