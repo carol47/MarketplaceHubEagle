@@ -5,8 +5,6 @@ import "normalize.css"
 import "../pages/layout.css"
 import Header from "./header"
 import { css } from "@emotion/core"
-import { Provider } from "react-redux"
-import store from "../components/store"
 import "@fortawesome/fontawesome-svg-core/styles.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 
@@ -27,26 +25,24 @@ const Layout = ({ children }) => {
   `)
 
   return (
-    <Provider store={store}>
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          width: 100vw;
-          line-height: 1;
-          overflow: hidden;
-          * {
-            box-sizing: border-box;
-          }
-        `}
-      >
-        <Header siteTitle={data.site.siteMetadata.title} />
-        <div>
-          <main>{children}</main>
-          <footer></footer>
-        </div>
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        line-height: 1;
+        overflow: hidden;
+        * {
+          box-sizing: border-box;
+        }
+      `}
+    >
+      <Header siteTitle={data.site.siteMetadata.title} />
+      <div>
+        <main>{children}</main>
+        <footer></footer>
       </div>
-    </Provider>
+    </div>
   )
 }
 

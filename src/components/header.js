@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import React from "react"
 import { css } from "@emotion/core"
 import { useSelector, useDispatch } from "react-redux"
-import { logoff } from "../components/store"
+import { logoff } from "../state/index"
 import { LoginButton, SignUpButton } from "../components/basic/buttons"
 import logo from "../images/logo.png"
 

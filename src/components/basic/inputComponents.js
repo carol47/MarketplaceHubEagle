@@ -30,6 +30,8 @@ const SearchComponent = props => {
         width: 240px;
 
         input {
+          border: 0;
+          border: none;
           width: 180px;
         }
       `}

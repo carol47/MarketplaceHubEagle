@@ -19,35 +19,49 @@ const SendFileComponent = props => {
         </InputBox>
         <DatePanel />
       </SendFileForm>
-      {/* <div>
-        <div>Resposta</div>
-        <div>{response}</div>
-      </div> */}
     </div>
   )
 }
 
+//http://localhost:9000/api/back/v1/uploadDados/
+//https://webhook.site/61dbed38-a99f-4b1b-b0f3-f275f607ec71
+
 const SendFileForm = props => {
-  const reqUrl = "https://webhook.site/54d79620-e33e-43a1-8892-497fa75c9bfd"
+  const reqUrl = "http://localhost:9000/api/back/v1/uploadDados/"
   const sendData = e => {
     e.preventDefault()
 
     const fileInput = document.getElementById("fileCache")
-    if (!fileInput.files.item(0)) {
+    const file = fileInput.files.item(0)
+    if (!file) {
       alert("Não há arquivo carregado!")
       return
     }
 
     const formData = new FormData()
-    const headers = {
-      Authorization: "token 74ea06afd9cad03545d8b3a27de0eebedeeb6c4f",
+    const headers = new Headers({
+      Authorization: "token f9470fede3f26b7d12a8d78d617cd637e661d0f6",
+      file: file.name,
+      "Content-Disposition": `attachment; filename=${file.name}`,
+    })
+
+    const json = {
+      pessoa: 1,
+      tipo_tabela: 1,
+      empresa_plataforma: 3,
+      plataforma_origem: 1,
+      data_inicio: "2020-07-01",
+      data_fim: "2020-07-16",
     }
 
-    formData.append("file1", fileInput.files.item(0))
+    formData.append("informacoes_json", JSON.stringify(json))
+    formData.append("arquivo", file, file.name)
 
+    console.log(file)
     fetch(reqUrl, {
       method: "POST",
       body: formData,
+      headers: headers,
     })
       .then(res => res.text())
       .then(json => {

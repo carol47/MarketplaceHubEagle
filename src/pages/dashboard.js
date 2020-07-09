@@ -1,248 +1,91 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { registerHub, logoff } from "../state/index"
 import { css } from "@emotion/core"
+import styled from "@emotion/styled"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 import SendFilePage from "../components/sendFile"
-import { NavigationComponent } from "../components/navigationComponent"
+import NavigationMenu from "../components/navigationComponent"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faExpand, faBars, faSearch } from "@fortawesome/free-solid-svg-icons"
 import { SearchComponent } from "../components/basic/inputComponents"
 
 const Dashboard = () => {
+  const [hubs, setHubs] = useState([])
+  const [marketplaces, setMarketplaces] = useState([])
   const [displayMenu, setDisplay] = useState("flex")
-
   const toggleDisplay = () => {
     displayMenu === "flex" ? setDisplay("none") : setDisplay("flex")
   }
 
+  useEffect(() => {
+    const headers = new Headers({
+      "Content-Type": "multipart/form-data",
+      Authorization: "Token f9470fede3f26b7d12a8d78d617cd637e661d0f6",
+    })
+
+    const requestBody = {
+      method: "GET",
+      headers,
+      mode: "cors",
+    }
+    fetch("http://localhost:9000/api/back/v1/menus/emp/1", requestBody)
+      .then(response => response.json())
+      .then(json => {
+        json.tipo_plataforma.forEach(list => {
+          if (list.tipo === "Hub") setHubs(list.plataforma)
+          else if (list.tipo === "Marketplace") setMarketplaces(list.plataforma)
+        })
+      })
+    console.log(marketplaces)
+  }, [])
+
   return (
     <Layout>
       <SEO title="Home" />
-      <Toolbar toggleDisplay={toggleDisplay} />
+      <Toolbar>
+        <div data-name="ToggleMenu" onClick={() => toggleDisplay()}>
+          <FontAwesomeIcon
+            icon={faBars}
+            css={css`
+              font-size: 1.2rem;
+            `}
+          />
+        </div>
+        <SearchComponent />
+      </Toolbar>
       <MainContainer>
-        <NavigationMenu displaySidebar={displayMenu} />
+        <NavigationMenu
+          displaySidebar={displayMenu}
+          hubs={hubs}
+          marketplaces={marketplaces}
+        />
         <SendFilePage />
       </MainContainer>
     </Layout>
   )
 }
 
-const Toolbar = props => {
-  return (
-    <div
-      css={css`
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 32px;
-        background-color: #e2fbfa;
-        box-shadow: 1px 1px 1px gray;
-        z-index: 1;
-        padding: 0px 15px;
-      `}
-    >
-      <div data-name="ToggleMenu" onClick={() => props.toggleDisplay()}>
-        <FontAwesomeIcon
-          icon={faBars}
-          css={css`
-            font-size: 1.2rem;
-          `}
-        />
-      </div>
-      <SearchComponent />
-    </div>
-  )
-}
+const Toolbar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+  background-color: #e2fbfa;
+  box-shadow: 1px 1px 1px gray;
+  z-index: 1;
+  padding: 0px 15px;
+`
 
-const MainContainer = props => {
-  return (
-    <div
-      css={css`
-        height: 90vh;
-        width: 100vw;
-        display: flex;
-        flex-direction: row;
-        color: black;
-      `}
-    >
-      {props.children}
-    </div>
-  )
-}
-
-const NavigationMenu = props => {
-  return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-width: 200px;
-        height: 100%;
-        padding: 5px 0px;
-        display: ${props.displaySidebar};
-        background-color: #e2fbfa;
-        box-shadow: 1px 1px 1px gray;
-      `}
-    >
-      <label
-        css={css`
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-        `}
-      ></label>
-
-      <NavigationComponent type="Hub" milo={["Plugg.to", "...", "..."]} />
-      <NavigationMarketplace type="Marketplaces">
-        <MarketplaceItem name="Netshoes" />
-        <MarketplaceItem name="Centauro" />
-        <MarketplaceItem name="B2W" />
-      </NavigationMarketplace>
-      <NavigationComponent type="Administração"></NavigationComponent>
-    </div>
-  )
-}
-
-const NavigationMarketplace = props => {
-  const [isNavigationVisible, setNavigationVisibility] = useState("flex")
-
-  const toggleVisibility = () => {
-    isNavigationVisible === "flex"
-      ? setNavigationVisibility("none")
-      : setNavigationVisibility("flex")
-  }
-
-  return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        width: 90%;
-        border: 1px solid gray;
-        border-radius: 5px;
-        margin-top: 2px;
-      `}
-    >
-      <div
-        css={css`
-      
-      width: 100%;
-      border-radius: 5px;
-      font-size: 140%;
-      text-align center;
-      background-color: #b0eae7;
-
-      `}
-      >
-        <div
-          css={css`
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            margin: 0px 5px;
-            padding: 0px;
-          `}
-        >
-          <div
-            css={css`
-              flex-grow: 1;
-            `}
-          >
-            {props.type}
-          </div>
-          <FontAwesomeIcon
-            icon={faExpand}
-            css={css`
-              max-width: 32px;
-            `}
-            onClick={() => toggleVisibility()}
-          />
-        </div>
-      </div>
-      <div
-        css={css`
-          display: ${isNavigationVisible};
-          height: 100%;
-          transition: all 0.5s;
-          flex-direction: column;
-
-          * {
-            padding: 8px 0px;
-          }
-        `}
-      >
-        {props.children}
-      </div>
-    </div>
-  )
-}
-
-const MarketplaceItem = props => {
-  return (
-    <div
-      className="item"
-      css={css`
-        display: flex;
-        align-items: flex-start;
-        position: relative;
-        font-size: 90%;
-        height: 32px;
-        z-index: 0;
-
-        &:hover {
-          background-color: #96ddda;
-          cursor: pointer;
-
-          * {
-            visibility: visible;
-            opacity: 1;
-            display: flex;
-          }
-        }
-      `}
-    >
-      {props.name}
-      <MarketplaceDropdownMenu />
-    </div>
-  )
-}
-
-const MarketplaceDropdownMenu = props => {
-  return (
-    <div
-      css={css`
-        visibility: hidden;
-        flex-direction: column;
-        position: absolute;
-        margin-top: -10px;
-        opacity: 0.5;
-        left: 180px;
-        overflow: hidden;
-
-        background-color: #96ddda;
-        width: 200px;
-        z-index: 1;
-        * {
-          margin: 0px;
-          padding: 5px 0px;
-
-          &:hover {
-            background-color: #ffd1ad;
-          }
-        }
-      `}
-    >
-      <div>Conciliar Contas</div>
-      <div>Cadastrar Comissão/Promoção</div>
-      <div>Histórico</div>
-      <div>Upload de Arquivos</div>
-      <div>Relatórios</div>
-    </div>
-  )
-}
+const MainContainer = styled.div`
+  height: 90vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  color: black;
+`
 
 export default Dashboard

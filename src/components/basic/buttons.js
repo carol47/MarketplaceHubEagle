@@ -6,7 +6,7 @@ import { Link } from "gatsby"
 
 const BasicButton = props => {
   return (
-    <div
+    <button
       css={css`
         cursor: pointer;
         display: flex;
@@ -30,7 +30,7 @@ const BasicButton = props => {
       `}
     >
       {props.children}
-    </div>
+    </button>
   )
 }
 
