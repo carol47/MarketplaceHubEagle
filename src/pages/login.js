@@ -1,13 +1,11 @@
 import React from "react"
 import { Link } from "gatsby"
-import { css } from "@emotion/core"
 import styled from "@emotion/styled"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { useDispatch } from "react-redux"
 import { login } from "../state/index"
-import { LoginButton } from "../components/basic/buttons"
-import { BasicInput } from "../components/basic/inputComponents"
+import { Button, TextField } from "@material-ui/core"
 import logo from "../images/logo.png"
 
 const LoginPage = () => (
@@ -17,8 +15,20 @@ const LoginPage = () => (
       <Logo />
       <h2>Acesso ao Sistema</h2>
       <FormContainer>
-        <BasicInput type="email" placeholder="Usuário" label="Usuário" />
-        <BasicInput type="password" placeholder="Usuário" label="Senha" />
+        <TextField
+          type="email"
+          id="outlined-basic"
+          label="Usuário"
+          variant="outlined"
+          margin="normal"
+        />
+        <TextField
+          type="password"
+          id="outlined-basic"
+          label="Senha"
+          variant="outlined"
+          margin="normal"
+        />
       </FormContainer>
       <SubmitButton />
     </LoginContainer>
@@ -39,11 +49,11 @@ const LoginContainer = styled.div`
 
 const FormContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   & > * {
-    margin-left: 16px;
+    margin: 16px;
   }
 `
 
@@ -52,7 +62,9 @@ const SubmitButton = () => {
 
   return (
     <Link to="/dashboard" onClick={() => dispatch(login())}>
-      <LoginButton />
+      <Button variant="contained" color="primary">
+        Login
+      </Button>
     </Link>
   )
 }

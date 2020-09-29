@@ -5,6 +5,7 @@ module.exports = {
     author: `carol47, Belmiro, Marcel`,
   },
   plugins: [
+    `gatsby-plugin-material-ui`,
     `gatsby-plugin-emotion`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-favicon`,

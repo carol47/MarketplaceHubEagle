@@ -5,67 +5,94 @@ import { css } from "@emotion/core"
 import styled from "@emotion/styled"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles"
+import { ptBR } from "@material-ui/core/locale"
 import SendFilePage from "../components/sendFile"
 import NavigationMenu from "../components/navigationComponent"
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faExpand, faBars, faSearch } from "@fortawesome/free-solid-svg-icons"
 import { SearchComponent } from "../components/basic/inputComponents"
+import PlaceMilo from "../components/PlaceholderComponent"
+
+//MaterialUI Localization
+const theme = createMuiTheme(
+  {
+    palette: {},
+  },
+  ptBR
+)
 
 const Dashboard = () => {
+  //Data to send to props
   const [hubs, setHubs] = useState([])
   const [marketplaces, setMarketplaces] = useState([])
-  const [displayMenu, setDisplay] = useState("flex")
+
+  //Data to toggle NavigationComponent
+  const [displayMenu, setDisplayMenu] = useState(false)
   const toggleDisplay = () => {
-    displayMenu === "flex" ? setDisplay("none") : setDisplay("flex")
+    displayMenu === true ? setDisplayMenu(false) : setDisplayMenu(true)
   }
 
+  //Data to set current screen
+  const sendFileScreen = (
+    <SendFilePage hubs={hubs} marketplaces={marketplaces} />
+  )
+  const [currentScreen, setCurrentScreen] = useState(
+    <PlaceMilo componentTitle="Página Inicial Dashboard" />
+  )
+
+  //Get NavigationComponent data
   useEffect(() => {
-    const headers = new Headers({
-      "Content-Type": "multipart/form-data",
-      Authorization: "Token f9470fede3f26b7d12a8d78d617cd637e661d0f6",
-    })
+    const headers = new Headers({})
 
     const requestBody = {
-      method: "GET",
       headers,
-      mode: "cors",
     }
     fetch("http://localhost:9000/api/back/v1/menus/emp/1", requestBody)
       .then(response => response.json())
       .then(json => {
+        console.log(json)
         json.tipo_plataforma.forEach(list => {
           if (list.tipo === "Hub") setHubs(list.plataforma)
           else if (list.tipo === "Marketplace") setMarketplaces(list.plataforma)
         })
       })
+      .catch(error => console.log(error))
     console.log(marketplaces)
   }, [])
 
   return (
-    <Layout>
-      <SEO title="Home" />
-      <Toolbar>
-        <div data-name="ToggleMenu" onClick={() => toggleDisplay()}>
-          <FontAwesomeIcon
-            icon={faBars}
+    <ThemeProvider theme={theme}>
+      <Layout>
+        <SEO title="Home" />
+        <Toolbar>
+          <div
+            onClick={() => toggleDisplay()}
             css={css`
-              font-size: 1.2rem;
+              cursor: pointer;
             `}
+          >
+            <FontAwesomeIcon
+              icon={faBars}
+              css={css`
+                font-size: 1.2rem;
+              `}
+            />
+          </div>
+          <SearchComponent />
+        </Toolbar>
+        <MainContainer>
+          <NavigationMenu
+            displaySidebar={displayMenu}
+            hubs={hubs}
+            marketplaces={marketplaces}
+            toggleBar={() => toggleDisplay()}
+            setCurrentScreen={setCurrentScreen}
           />
-        </div>
-        <SearchComponent />
-      </Toolbar>
-      <MainContainer>
-        <NavigationMenu
-          displaySidebar={displayMenu}
-          hubs={hubs}
-          marketplaces={marketplaces}
-        />
-        <SendFilePage />
-      </MainContainer>
-    </Layout>
+          {currentScreen}
+        </MainContainer>
+      </Layout>
+    </ThemeProvider>
   )
 }
 

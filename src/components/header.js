@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { logoff } from "../state/index"
 import { LoginButton, SignUpButton } from "../components/basic/buttons"
 import logo from "../images/logo.png"
+import Button from "@material-ui/core/Button"
 
 const Header = props => {
   return (
@@ -70,12 +71,12 @@ const Navigation = props => {
         width: 100%;
         display: flex;
         justify-content: flex-end;
-        * {
+        & > * {
           margin-left: 10px;
         }
       `}
     >
-      <SignUpButton />
+      <Button>Cadastro</Button>
       <Link
         to="/login"
         css={css`
@@ -83,7 +84,9 @@ const Navigation = props => {
           color: black;
         `}
       >
-        <LoginButton></LoginButton>
+        <Button variant="contained" color="primary">
+          Login
+        </Button>
       </Link>
     </div>
   )

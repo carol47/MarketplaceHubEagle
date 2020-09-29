@@ -3,169 +3,160 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faExpand } from "@fortawesome/free-solid-svg-icons"
 import { css } from "@emotion/core"
 import styled from "@emotion/styled"
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import SendFilePage from "../components/sendFile"
+import PedidosVendaMarketplace from "../components/PedidosVendaMarketplace"
+import ComissoesMarketplace from "../components/ComissoesMarketplace"
 
-const NavigationMenu = props => {
-  const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 200px;
-    height: 100%;
-    padding: 5px 0px;
-    display: ${props.displaySidebar};
-    background-color: #e2fbfa;
-    box-shadow: 1px 1px 1px gray;
+import {
+  Drawer,
+  Accordion,
+  AccordionSummary,
+  List,
+  ListItem,
+  AccordionDetails,
+} from "@material-ui/core"
+
+//Constants
+const HUB_ID = 1
+const MARKETPLACE_ID = 2
+
+const screenList = {
+  uploadFile: props => <SendFilePage {...props} />,
+  pedidosVendaMarketplace: props => <PedidosVendaMarketplace {...props} />,
+  cadastrarComissoes: props => <ComissoesMarketplace {...props} />,
+}
+
+const NavigationMenu = ({
+  displaySidebar,
+  toggleBar,
+  hubs,
+  marketplaces,
+  setCurrentScreen,
+}) => {
+  const StyledDrawer = styled(Drawer)`
+    width: 200px;
   `
+
   return (
-    <Container>
-      <NavigationComponent type="Hub">
-        {props.hubs.map(hub => (
-          <NavigationItem key={hub.id} name={hub.nome} />
-        ))}
-      </NavigationComponent>
-      <NavigationComponent type="Marketplaces">
-        {props.marketplaces.map(marketplace => (
-          <NavigationItem key={marketplace.id} name={marketplace.nome}>
-            <DropdownMenu />
-          </NavigationItem>
-        ))}
-      </NavigationComponent>
-      <NavigationComponent type="Administração" />
-    </Container>
+    <StyledDrawer
+      variant="temporary"
+      anchor="left"
+      open={displaySidebar}
+      onClose={() => toggleBar()}
+    >
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>Hub</AccordionSummary>
+        <AccordionDetails>
+          {hubs.map(hub => (
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />} key={hub.id}>
+                {hub.nome}
+              </AccordionSummary>
+              <AccordionDetails>
+                <HubActions
+                  setCurrentScreen={setCurrentScreen}
+                  toggleBar={toggleBar}
+                />
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          Marketplaces
+        </AccordionSummary>
+        <AccordionDetails>
+          <List>
+            {marketplaces.map(marketplace => (
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  key={marketplace.id}
+                >
+                  {marketplace.nome}
+                </AccordionSummary>
+                <AccordionDetails>
+                  <HubActions
+                    setCurrentScreen={setCurrentScreen}
+                    toggleBar={toggleBar}
+                    index={marketplace.id}
+                    nomePlataforma={marketplace.nome}
+                    tipoPlataforma={MARKETPLACE_ID}
+                  />
+                </AccordionDetails>
+              </Accordion>
+            ))}
+          </List>
+        </AccordionDetails>
+      </Accordion>
+    </StyledDrawer>
   )
 }
 
-const NavigationComponent = props => {
-  const [isNavigationVisible, setNavigationVisibility] = useState("flex")
-
-  const toggleVisibility = () => {
-    isNavigationVisible === "flex"
-      ? setNavigationVisibility("none")
-      : setNavigationVisibility("flex")
-  }
-
-  const NavigationComponentContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    border: 1px solid gray;
-    border-radius: 5px;
-    margin-top: 2px;
+const HubActions = ({
+  setCurrentScreen,
+  toggleBar,
+  tipoPlataforma,
+  index,
+  nomePlataforma,
+}) => {
+  const StyledListItem = styled(ListItem)`
+    cursor: pointer;
+    &: hover {
+      background-color: #3f51b5;
+    }
   `
-
-  const NavigationHeader = props => {
-    const SecondDiv = styled.div`
-      display: flex;
-      flex-direction: row;
-      background-color: #b0eae7;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0px 5px;
-      border-radius: 5px 0px;
-    `
-    const Container = styled.div``
-
-    return (
-      <Container
-        css={css`
-      width: 100%;
-          border-radius: 5px;
-          font-size: 140%;
-          text-align center;
-          `}
+  return (
+    <List>
+      <StyledListItem
+        onClick={() => {
+          setCurrentScreen(
+            screenList.pedidosVendaMarketplace({
+              nomePlataforma,
+              empresaPlataforma: HUB_ID,
+              id: index,
+            })
+          )
+          toggleBar()
+        }}
       >
-        <SecondDiv>
-          <div
-            css={css`
-              flex-grow: 1;
-            `}
-          >
-            {props.type}
-          </div>
-          <FontAwesomeIcon
-            icon={faExpand}
-            css={css`
-              max-width: 32px;
-            `}
-            onClick={() => toggleVisibility()}
-          />
-        </SecondDiv>
-      </Container>
-    )
-  }
-
-  const NavigationBody = styled.div`
-    display: ${isNavigationVisible};
-    height: 100%;
-    transition: all 0.5s;
-    flex-direction: column;
-
-    * {
-      padding: 8px 0px;
-    }
-  `
-
-  return (
-    <NavigationComponentContainer css={css``}>
-      <NavigationHeader type={props.type} />
-      <NavigationBody>{props.children}</NavigationBody>
-    </NavigationComponentContainer>
+        Pedidos de Venda / Pagamento
+      </StyledListItem>
+      <StyledListItem>Conciliar Contas</StyledListItem>
+      <StyledListItem
+        onClick={() => {
+          setCurrentScreen(
+            screenList.cadastrarComissoes({
+              nomePlataforma,
+              empresaPlataforma: HUB_ID,
+              id: index,
+            })
+          )
+          toggleBar()
+        }}
+      >
+        Cadastrar Comissão/Promoção
+      </StyledListItem>
+      <StyledListItem>Histórico</StyledListItem>
+      <StyledListItem
+        onClick={() => {
+          setCurrentScreen(
+            screenList.uploadFile({
+              nomePlataforma,
+              empresaPlataforma: HUB_ID,
+              id: index,
+            })
+          )
+          toggleBar()
+        }}
+      >
+        Upload de Arquivos
+      </StyledListItem>
+      <StyledListItem>Relatórios</StyledListItem>
+    </List>
   )
 }
 
-const NavigationItem = props => {
-  const Container = styled.div`
-    display: flex;
-    align-items: flex-start;
-    position: relative;
-    font-size: 90%;
-    height: 32px;
-    z-index: 0;
-
-    &:hover {
-      background-color: #96ddda;
-      cursor: pointer;
-
-      * {
-        visibility: visible;
-        opacity: 1;
-        display: flex;
-      }
-    }
-  `
-
-  return (
-    <Container>
-      {props.name}
-      <DropdownMenu>
-        <div>Conciliar Contas</div>
-        <div>Cadastrar Comissão/Promoção</div>
-        <div>Histórico</div>
-        <div>Upload de Arquivos</div>
-        <div>Relatórios</div>
-      </DropdownMenu>
-    </Container>
-  )
-}
-
-const DropdownMenu = styled.div`
-  visibility: hidden;
-  flex-direction: column;
-  position: absolute;
-  margin-top: -10px;
-  opacity: 0.5;
-  left: 180px;
-
-  background-color: #96ddda;
-  width: 200px;
-  z-index: 1;
-  * {
-    margin: 0px;
-    padding: 5px 0px;
-
-    &:hover {
-      background-color: #ffd1ad;
-    }
-  }
-`
 export default NavigationMenu
