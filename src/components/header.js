@@ -8,6 +8,8 @@ import { LoginButton, SignUpButton } from "../components/basic/buttons"
 import logo from "../images/logo.png"
 import Button from "@material-ui/core/Button"
 
+//teste
+
 const Header = props => {
   return (
     <header>
@@ -66,8 +68,8 @@ const Navigation = props => {
       <UserProfile name="Fulanx - Usiminas" /> <UserMenuBar />
     </>
   ) : (
-    <div
-      css={css`
+      <div
+        css={css`
         width: 100%;
         display: flex;
         justify-content: flex-end;
@@ -75,21 +77,21 @@ const Navigation = props => {
           margin-left: 10px;
         }
       `}
-    >
-      <Button>Cadastro</Button>
-      <Link
-        to="/login"
-        css={css`
+      >
+        <Button>Cadastro</Button>
+        <Link
+          to="/login"
+          css={css`
           text-decoration: none;
           color: black;
         `}
-      >
-        <Button variant="contained" color="primary">
-          Login
+        >
+          <Button variant="contained" color="primary">
+            Login
         </Button>
-      </Link>
-    </div>
-  )
+        </Link>
+      </div>
+    )
 
   return (
     <div
