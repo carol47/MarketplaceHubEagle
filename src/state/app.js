@@ -1,3 +1,4 @@
+// testando
 const initialState = {
   isUserLogged: false,
   currentScreen: "InitialScreen",
