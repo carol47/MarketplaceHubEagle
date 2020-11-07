@@ -43,10 +43,16 @@ const Dashboard = () => {
 
   //Get NavigationComponent data
   useEffect(() => {
-    const headers = new Headers({})
+    const headers = new Headers({
+      "Content-Type": "multipart/form-data",
+      Authorization: "Token f9470fede3f26b7d12a8d78d617cd637e661d0f6",
+    })
 
+    //teste 
     const requestBody = {
+      method: "GET",
       headers,
+      mode: "cors",
     }
     fetch("http://localhost:9000/api/back/v1/menus/emp/1", requestBody)
       .then(response => response.json())
